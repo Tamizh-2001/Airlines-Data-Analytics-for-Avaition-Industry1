@@ -1,0 +1,174 @@
+#include&lt;stdio.h&gt; (is a standard output function)
+#include&lt;stdlib.h&gt; (Console Input Output)
+#include&lt;conio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;Windows.h&gt;
+struct mufti_airline (Structures are used to represent a record)
+{
+char passport[6]; (Declaring)
+char name[15];
+int seat_num;
+char email[15];
+struct mufti_airline *following;
+}
+*begin, *stream;
+struct mufti_airline *dummy;
+void main() (is the special function in C from where execution of a
+program starts and end).
+{
+void reserve(int x), cancel(), display(), savefile(); //function
+prototypes
+int choice;
+begin = stream = NULL; //initialize the struct pointers to NULL
+int num = 1;
+do
+{
+(Printing the menu )
+printf(&quot;\n\n\t\t
+
+********************************************************************&quot;);
+
+printf(&quot;\n\t\t welcome to mufti&#39;s airline system
+
+&quot;);
+
+printf(&quot;\n\t\t
+
+*******************************************************************&quot;);
+printf(&quot;\n\n\n\t\t Please enter your choice from below (1-4):&quot;);
+printf(&quot;\n\n\t\t 1. Reservation&quot;);
+printf(&quot;\n\n\t\t 2. Cancel&quot;);
+printf(&quot;\n\n\t\t 3. DISPLAY RECORDS&quot;);
+printf(&quot;\n\n\t\t 4. EXIT&quot;);
+printf(&quot;\n\n\t\t feel free to ask us&quot;);
+printf(&quot;\n\n\t\t Enter your choose &quot;);
+
+scanf(&quot;%d&quot;, &amp;choice); fflush(stdin);
+system(&quot;cls&quot;); (cls&quot; is a command on some operating systems
+
+that clears the screen
+
+switch (choice) (Each value is called a case, and the
+variable being switched on is checked for each switch case)
+
+{
+case 1:
+reserve(num);
+num++; (to increment the seats by
+adding 1 every time)
+break; (we find the answer do not need to
+test it anymore)
+
+case 2:
+cancel();
+break;
+case 3:
+display();
+break;
+case 4:
+{
+
+savefile();
+break;
+
+}
+Default: (every switch case has to have default after 4 just stop
+
+it is invalid choice)
+
+printf(&quot;\n\n\t SORRY INVALID CHOICE!&quot;);
+printf(&quot;\n\n\t PLEASE CHOOSE FROM 1-4&quot;);
+printf(&quot;\n\n\t Do not forget to chose from 1-4&quot;);
+}
+getch(); (It forces to wait the output to stay on screen
+until any key pressed from keyboard)
+} while (choice != 4); (coz we have 4 cases so when if it more
+than 4 give default)
+}
+// ************************GOOD LUCK MUFTI*****************************
+void details()
+{ (it is asking the user to input the details)
+printf(&quot;\n\t Enter your passport number:&quot;);
+gets(stream-&gt;passport); fflush(stdin); //reads a line from stdin and
+stores it into the string pointed
+printf(&quot;\n\t Enter your name:&quot;);
+gets(stream-&gt;name); fflush(stdin);
+printf(&quot;\n\t Enter your email address:&quot;);
+gets(stream-&gt;email); fflush(stdin);
+}
+// ************************************GOOD LUCK
+MUFTI************************************
+void details();
+void reserve(int x) (int x the reservation part is only for 15 seats so I use x
+instead of 15 because if I want to change the seat number I will change only x)
+stream = begin; (this is for first user want to register)
+if (begin == NULL)
+{
+// first user
+begin = stream = (struct mufti_airline*)malloc(sizeof(struct
+
+mufti_airline));
+(memory allocation/ allocates the requested memory and returns a pointer to it)
+
+details();
+stream-&gt;following = NULL; (checking if the next node is empty book
+
+it )
+
+printf(&quot;\n\t Seat booking successful!&quot;);
+printf(&quot;\n\t your seat number is: Seat A-%d&quot;, x);
+stream-&gt;seat_num = x; (same as I mentioned up x for seats number up
+
+to 15 seats )
+
+return; (go back)
+}
+else if (x &gt; 15) // FULL SEATS
+{
+printf(&quot;\n\t\t Seat Full.&quot;);
+return;
+}
+else
+{ ( it is registering the next users )
+// next user
+while (stream-&gt;following)
+stream = stream-&gt;following;
+stream-&gt;following = (struct mufti_airline *)malloc(sizeof(struct
+
+mufti_airline));
+
+stream = stream-&gt;following;
+details();
+stream-&gt;following = NULL;
+printf(&quot;\n\t Seat booking succesful!&quot;);
+printf(&quot;\n\t your seat number is: Seat A-%d&quot;, x);
+stream-&gt;seat_num = x;
+return;
+}
+}
+// ************************GOOD LUCK MUFTI********************************
+void savefile()
+{
+FILE *fpointer = fopen(&quot;mufti records&quot;, &quot;w&quot;);
+(where I store the
+records in mufti record file)(opening the file)
+if (!fpointer)
+{
+printf(&quot;\n Error in opening file!&quot;);
+return;
+Sleep(800); (delays program execution for a given number of seconds)
+}
+stream = begin;
+while (stream)
+{
+fprintf(fpointer, &quot;%-6s&quot;, stream-&gt;passport);
+fprintf(fpointer, &quot;%-15s&quot;, stream-&gt;name);
+return;
+}
+stream = stream-&gt;following;
+}
+printf(&quot;passport number is wrong please check your passport&quot;);
+(if user enter wrong passport number)
+}
+// ************************************GOOD LUCK
+MUFTI**********************************
