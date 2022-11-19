@@ -1,0 +1,19 @@
+# Create a DataFrame containing airline names, total arriving flights and number of cancelled flights.
+df_flights = df.groupby('carrier_name')['arr_flights'].sum().reset_index(name='num_arrived')
+df_cancelled = df.groupby('carrier_name')['arr_cancelled'].sum().reset_index(name='num_cancelled')
+df_cancelled = pd.merge(df_cancelled, df_flights, on='carrier_name')
+
+# Calculate the percentage of flights cancelled.
+df_cancelled['proportion'] = df_cancelled['num_cancelled'] / df_cancelled['num_arrived'] * 100
+
+# Display the airline with the most cancellations as a percentage of total arriving flights.
+df_cancelled.sort_values(by=['proportion'], ascending=False).head(1)
+df_flights = df.groupby('carrier_name')['arr_flights'].sum().reset_index(name='num_arrived')
+df_cancelled = df.groupby('carrier_name')['arr_cancelled'].sum().reset_index(name='num_cancelled')
+df_cancelled = pd.merge(df_cancelled, df_flights, on='carrier_name')
+# Display whether total NAS delay minutes are increasing or decreasing for past 2 months.
+if df_nas.iloc[-1] > df_nas.iloc[-2]:
+    print('Total NAS delay minutes for ' + airline + ' are increasing.')
+else:
+    print('Total NAS delay minutes for ' + airline + ' are decreasing.')
+}
