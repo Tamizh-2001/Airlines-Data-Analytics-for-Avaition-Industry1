@@ -1,0 +1,38 @@
+# Identify the airports in the state of Tennessee.
+df['TN'] = df['airport_name'].apply(lambda x: x.find('TN'))
+
+# Create a set of airport names (to eliminate the duplicates).
+airports = set(df[df['TN'] != -1]['airport_name'])
+
+# Display the list of airports.
+print('Tennessee Airports:')
+print(airports)
+
+# Read the coordinates file and import all rows.
+df_coords = pd.read_csv('airport_coordinates.csv')
+
+# Create a new DataFrame with airport codes and names.
+df_airports = df[['airport', 'airport_name']].drop_duplicates().reset_index(drop=True)
+
+# Merge the coordinates DataFrame with the airports DataFrame.
+df_airports = pd.merge(df_airports, df_coords, on='airport')
+
+# This code was required due to an Anaconda issue.  You may not need it depending on your environment.
+import os
+os.environ["PROJ_LIB"] = "C:\\Users\\Nick\\anaconda3\\envs\\sandbox\\Library\\share\\basemap";
+
+import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
+
+# Ready the Basemap for display.
+fig = plt.figure(figsize=(16, 16))
+m = Basemap(llcrnrlon=-119,llcrnrlat=22,urcrnrlon=-64,urcrnrlat=49,
+        projection='lcc',lat_1=32,lat_2=45,lon_0=-95)
+
+# Load the shapefile to display the outlines of the US states.
+m.readshapefile('st99_d00', name='states', drawbounds=True)
+
+# Plot the airports on the map.
+m.scatter(df_airports['long'].values, df_airports['lat'].values, latlon=True)
+plt.show()
+view rawlearn_airline_delays_step4.py hosted with ❤ by GitHub
